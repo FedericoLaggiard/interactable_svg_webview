@@ -1,7 +1,7 @@
 name: interactable_svg_webview
-description: A new Flutter package project.
-version: 0.0.1
-homepage:
+description: Flutter plugin for svg touch interaction.
+version: 1.0.0
+homepage: https://github.com/FedericoLaggiard/interactable_svg_webview
 
 environment:
   sdk: '>=2.19.4 <3.0.0'
@@ -10,6 +10,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  webview_flutter: ^4.2.0
 
 dev_dependencies:
   flutter_test:
@@ -21,6 +22,9 @@ dev_dependencies:
 
 # The following section is specific to Flutter packages.
 flutter:
+
+  assets:
+    - lib/htmlPage/
 
   # To add assets to your package, add an assets section, like this:
   # assets:
