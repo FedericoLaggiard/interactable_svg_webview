@@ -44,10 +44,10 @@ class SvgInteractableView extends StatefulWidget {
     this.onSvgTouched,
     this.width,
     this.height,
-    Color? backgroundColor,
+    backgroundColor,
     this.onPageErrors,
     this.hotspotsClasses,
-  }) : backgroundColor= Colors.white;
+  }) : backgroundColor = backgroundColor ?? Colors.white;
 
   @override
   State<SvgInteractableView> createState() => _SvgInteractableViewState();
@@ -81,12 +81,19 @@ class _SvgInteractableViewState extends State<SvgInteractableView> {
 
   void _onJSReady() async {
     try {
+      _setBGColor(widget.backgroundColor);
       String svgXml = await loadAsset(widget.svgAssetPath);
       _sendLoadSVG(svgXml);
     }catch (error){
       rethrow;
     }
   }
+  void _setBGColor(Color color){
+    print(color.toString());
+    String js = 'document.body.style.backgroundColor ="rgb(${color.red},${color.green},${color.blue})"';
+    _controller.runJavaScript(js);
+  }
+
   void _onJSTouchEvent(event){
     Map<String, dynamic> json = jsonDecode(event);
     TouchedItem it = TouchedItem.fromJson(json);
