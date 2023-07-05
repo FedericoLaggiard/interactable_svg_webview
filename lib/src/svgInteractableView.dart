@@ -17,7 +17,9 @@ class SvgInteractableView extends StatefulWidget {
   /// The background color applied to the web view (white if not specified)
   final Color backgroundColor;
   /// The asset path of the SVG to load in the webview
-  final String svgAssetPath;
+  final String? svgAssetPath;
+  /// The xml string of the SVG;
+  final String? svgString;
   /// Width of the webview (by default screen width)
   final double? width;
   /// Height of the webview (by default screeh height)
@@ -37,7 +39,8 @@ class SvgInteractableView extends StatefulWidget {
 
   const SvgInteractableView({
     super.key,
-    required this.svgAssetPath,
+    this.svgAssetPath,
+    this.svgString,
     required this.touchableElements,
     this.onLoadCompleted,
     this.onHotspotTouched,
@@ -47,7 +50,8 @@ class SvgInteractableView extends StatefulWidget {
     backgroundColor,
     this.onPageErrors,
     this.hotspotsClasses,
-  }) : backgroundColor = backgroundColor ?? Colors.white;
+  }) : backgroundColor = backgroundColor ?? Colors.white,
+  assert(svgAssetPath != null || svgString != null, "Either svgAssetPath or svgString must have a value");
 
   @override
   State<SvgInteractableView> createState() => _SvgInteractableViewState();
@@ -82,7 +86,7 @@ class _SvgInteractableViewState extends State<SvgInteractableView> {
   void _onJSReady() async {
     try {
       _setBGColor(widget.backgroundColor);
-      String svgXml = await loadAsset(widget.svgAssetPath);
+      String svgXml = widget.svgString != null ? widget.svgString! : await loadAsset(widget.svgAssetPath!);
       _sendLoadSVG(svgXml);
     }catch (error){
       rethrow;
